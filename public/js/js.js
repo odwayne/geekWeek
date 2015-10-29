@@ -135,9 +135,23 @@ checkAnswer = function() {
   if(currentQuestion === null) {return;}
   var answer = $('#answerAttempt')[0].value;
   console.log("Answer: " + answer)
-  var indexOfAnswer = currentAnswers.indexOf(answer);
+  var indexOfAnswer = null;
+  $.each(currentAnswers, function(index, value) {
+    if (value.indexOf(answer) > -1) {
+      indexOfAnswer = index;
+      return;
+    }
+  });
+  if (indexOfAnswer == null) {
+    wrongAnswerAction();
+    setTimeout(function() {
+        hasBuzzerPlayed = false;
+    }, 2000);
+    return;
+  }
+
   console.log("Index: " + indexOfAnswer)
-  if (indexOfAnswer > -1) {
+
     var panel = $(document).find('#answers').find('#answer'+ (indexOfAnswer+1));
     var answerElement = panel.find('.answer-text')[0];
     if($(answerElement).attr('data-isShown') === 'true') {return;}
@@ -151,16 +165,10 @@ checkAnswer = function() {
     bell.currentTime = 0;
     bell.play();
 
-    $(answerElement).text(answer);
+    $(answerElement).text(currentAnswers[indexOfAnswer]);
     $(scoreElement).text('' + currentScores[indexOfAnswer])
     rotateShow(answerElement);
     rotateShow(scoreElement);
-    return;
-  }
-  wrongAnswerAction();
-  setTimeout(function() {
-      hasBuzzerPlayed = false;
-    }, 2000);
   console.log(answer);
 };
 
