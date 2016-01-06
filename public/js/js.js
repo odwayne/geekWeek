@@ -120,13 +120,13 @@ keyDownHandler = function(evt) {
     }
     isGameFinished = false;
   }
-  else if(evt.keyCode === 88) { // X
+  else if(evt.keyCode === 18) { // alt key
     wrongAnswerAction()
   }
 };
 
 keyUpHandler = function(evt) {
-  if(evt.keyCode === 88) { // X
+  if(evt.keyCode === 18) { // alt key
     hasBuzzerPlayed = false;
   }
 };
